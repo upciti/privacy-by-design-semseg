@@ -35,28 +35,38 @@ poe poe-torch-cuda11  # to install Pytorch with CUDA 11.6
 ```
 
 ## Data preparation
-To generate out-of-focus dataset, you must download ... image from Cityscape and disparity maps.
 
-To convert disparity maps to depth maps, we use:
+To be added.
 
-```shell
-this to convert to depth maps
-```
+[//]: # (To generate out-of-focus dataset, you must download ... image from Cityscape and disparity maps.)
 
-Then, these depth maps are used with this matlab/octave code to generate defocused images using the method... The original code was written by ... and ... in ...
+[//]: # ()
+[//]: # (To convert disparity maps to depth maps, we use:)
 
-run xyz to generate the dataset. Change the parameters according to the experiment in the paper, or personal usage.
+[//]: # ()
+[//]: # (```shell)
 
-Then, define the following environment variable to the 
+[//]: # (this to convert to depth maps)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (Then, these depth maps are used with this matlab/octave code to generate defocused images using the method... The original code was written by ... and ... in ...)
+
+[//]: # ()
+[//]: # (run xyz to generate the dataset. Change the parameters according to the experiment in the paper, or personal usage.)
+
+[//]: # ()
+[//]: # (Then, define the following environment variable to the )
 
 ## Model zoo
 
-| name               | url |
-|--------------------| --- |
-| infocus_color      | [weights will be soon available][model-link] |
-| infocus_gray       | [weights will be soon available][model-link] |
-| defocus_color      | [weights will be soon available][model-link] |
-| defocus_gray       | [weights will be soon available][model-link] |
+| name               | url                                         |
+|--------------------|---------------------------------------------|
+| infocus_color      | [download_weight][infocus_color-model-link] |
+| infocus_gray       | [download_weight][infocus_gray-model-link]  |
+| defocus_color      | [download_weight][defocus-color-link]       |
+| defocus_gray       | [download_weight][defocus_gray-model-link]  |
 
 We suggest to save weights inside a folder called ```checkpoints/model_name```.
 
@@ -76,13 +86,13 @@ visdom -p $DISPLAY_PORT
 To train a pretrained DeepLabV3 with one of our weights with a single GPU, run: 
 
 ```shell
-python main.py --train --name name-of-the-new-project-with-pretrained-weights --dataroot PATH_TO_CITYSCAPES --batchSize $batch_size --nEpochs $end --display_id $display_id --port $port --use_resize --data_augmentation f f --resume
+python train_test_semseg.py --train --name name-of-the-new-project-with-pretrained-weights --dataroot PATH_TO_CITYSCAPES --batchSize $batch_size --nEpochs $end --display_id $display_id --port $port --use_resize --data_augmentation f f --resume
 ```
 
 To train from scratch, run:
 
 ```shell
-python main.py --train --name name-of-the-new-project --dataroot PATH_TO_CITYSCAPES --batchSize $batch_size --nEpochs $end --display_id $display_id --port $port --use_resize --data_augmentation f f 
+python train_test_semseg.py --train --name name-of-the-new-project --dataroot PATH_TO_CITYSCAPES --batchSize $batch_size --nEpochs $end --display_id $display_id --port $port --use_resize --data_augmentation f f 
 ```
 
 
@@ -91,13 +101,13 @@ To train a pretrained DeepLabV3 with one of our weights with a single GPU, run:
 
 Generate images only:
 ```shell
-python main.py --test --test_only --name infocus_color --save_samples --use_resize --display_id 0 --dataroot PATH_TO_DATA
+python train_test_semseg.py --test --test_only --name infocus_color --save_samples --use_resize --display_id 0 --dataroot PATH_TO_DATA
 ```
 
 
 Generate images and evaluation:
 ```shell
-python main.py --test --test_metrics --name infocus_color --use_resize --display_id 0 --dataroot ./datasets/public_datasets/Cityscapes
+python train_test_semseg.py --test --test_metrics --name infocus_color --use_resize --display_id 0 --dataroot ./datasets/public_datasets/Cityscapes
 ```
 
 As a result from this last run, you should get the outputs under the results file and the following metric results:
@@ -109,7 +119,7 @@ mIOU 0.6486886632431875
 
 Generate only evaluation (resulting segmentation must be in the corresponding folder):
 ```shell
-python main.py --test --evaluate_only --name infocus_color --use_resize --display_id 0 --dataroot ./datasets/public_datasets/Cityscapes
+python train_test_semseg.py --test --evaluate_only --name infocus_color --use_resize --display_id 0 --dataroot ./datasets/public_datasets/Cityscapes
 ```
 
 ## License
@@ -123,3 +133,7 @@ Code (scripts) are released under the [MIT license][license].
 [arxiv-paper]: https://arxiv.org/list/cs.CV/recent
 [model-link]: broken
 [license]: LICENSE
+[infocus_color-model-link]: https://upciti-computer-vision-public.s3.eu-west-3.amazonaws.com/weights-privacy-aware-paper/infocus_color/0300.pth.tar 
+[infocus_gray-model-link]: https://upciti-computer-vision-public.s3.eu-west-3.amazonaws.com/weights-privacy-aware-paper/infocus_gray/0300.pth.tar
+[defocus-color-link]: https://upciti-computer-vision-public.s3.eu-west-3.amazonaws.com/weights-privacy-aware-paper/defocus_color/0300.pth.tar
+[defocus_gray-model-link]: https://upciti-computer-vision-public.s3.eu-west-3.amazonaws.com/weights-privacy-aware-paper/defocus_gray/0300.pth.tar
